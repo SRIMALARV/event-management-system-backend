@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.trustrace.eventmanagementauth.security.services.UserDetailsImpl;
-import com.trustrace.eventmanagementauth.security.jwt.JwtUtils;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
