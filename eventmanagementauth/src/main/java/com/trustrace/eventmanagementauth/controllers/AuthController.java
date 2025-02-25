@@ -70,7 +70,7 @@ public class AuthController {
                 roles));
     }
 
-    @PostMapping("/logyyin")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         return authenticateAndRespond(loginRequest.getUsername(), loginRequest.getPassword());
     }
