@@ -42,7 +42,9 @@ public class Event {
     private Double fee;
 
     @Min(value = 1)
-    private int participants;
+    private int minParticipants;
+
+    private int maxParticipants;
 
     @NotBlank
     @Size(min = 10)
