@@ -24,8 +24,8 @@ import com.trustrace.eventmanagementauth.security.services.UserDetailsServiceImp
 @EnableMethodSecurity
 (securedEnabled = true,
 jsr250Enabled = true,
-prePostEnabled = true) // by default
-public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
+prePostEnabled = true)
+public class WebSecurityConfig {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
