@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Document(collection = "events")
@@ -30,6 +31,11 @@ public class Event {
     private LocalDate eventDate;
 
     @NotNull
+    private LocalTime eventTime;
+
+    private Number eventDuration;
+
+    @NotNull
     private LocalDate registrationDeadline;
 
     @NotBlank
@@ -43,12 +49,17 @@ public class Event {
 
     @Min(value = 1)
     private int minParticipants;
-
+    @NotBlank
     private int maxParticipants;
 
     @NotBlank
     @Size(min = 10)
     private String instituteName;
 
-    private String imageUrl;
+    private String meetUrl;
+
+    private String meetId;
+
+    private String meetPasscode;
+
 }
