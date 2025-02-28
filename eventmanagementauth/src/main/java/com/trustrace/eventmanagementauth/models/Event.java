@@ -62,4 +62,15 @@ public class Event {
 
     private String meetPasscode;
 
+
+    @NotBlank
+    private String createdBy;
+
+    public @NotBlank String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(@NotBlank String createdBy) {
+        this.createdBy = createdBy;
+    }
 }

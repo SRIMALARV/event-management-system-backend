@@ -4,6 +4,8 @@ import com.trustrace.eventmanagementauth.models.Event;
 import com.trustrace.eventmanagementauth.security.services.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +23,8 @@ public class EventController {
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        Event createdEvent = eventService.createEvent(event);
+        String username = getCurrentUsername();
+        Event createdEvent = eventService.createEvent(event, username);
         return ResponseEntity.ok(createdEvent);
     }
 
@@ -57,5 +60,22 @@ public class EventController {
     public ResponseEntity<List<Event>> getEventsByTypeSorted(@PathVariable String type, @PathVariable String order) {
         List<Event> events = eventService.getEventsByTypeSorted(type, order);
         return ResponseEntity.ok(events);
+    }
+
+    @GetMapping("/my-events")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<Event>> getMyEvents() {
+        String username = getCurrentUsername();
+        List<Event> myEvents = eventService.getEventsByUser(username);
+        return ResponseEntity.ok(myEvents);
+    }
+
+    private String getCurrentUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
     }
 }

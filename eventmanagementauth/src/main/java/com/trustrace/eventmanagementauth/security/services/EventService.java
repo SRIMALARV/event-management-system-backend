@@ -19,7 +19,8 @@ public class EventService {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public Event createEvent(Event event) {
+    public Event createEvent(Event event, String username) {
+        event.setCreatedBy(username);
         return mongoTemplate.save(event);
     }
 
@@ -52,6 +53,12 @@ public class EventService {
         Query query = new Query();
         query.addCriteria(Criteria.where("type").is(type));
         query.with(Sort.by(direction, "eventDate"));
+        return mongoTemplate.find(query, Event.class);
+    }
+
+    public List<Event> getEventsByUser(String username) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("createdBy").is(username));
         return mongoTemplate.find(query, Event.class);
     }
 }
