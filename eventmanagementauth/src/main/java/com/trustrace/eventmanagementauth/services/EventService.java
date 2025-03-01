@@ -1,4 +1,4 @@
-package com.trustrace.eventmanagementauth.security.services;
+package com.trustrace.eventmanagementauth.services;
 
 import com.trustrace.eventmanagementauth.models.Event;
 import org.springframework.data.domain.Sort;
@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EventService {
@@ -59,6 +58,12 @@ public class EventService {
     public List<Event> getEventsByUser(String username) {
         Query query = new Query();
         query.addCriteria(Criteria.where("createdBy").is(username));
+        return mongoTemplate.find(query, Event.class);
+    }
+
+    public List<Event> getApprovedEvents() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("status").is("approved"));
         return mongoTemplate.find(query, Event.class);
     }
 }

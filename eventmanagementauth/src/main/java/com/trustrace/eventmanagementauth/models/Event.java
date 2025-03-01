@@ -47,9 +47,10 @@ public class Event {
     private String location;
     private Double fee;
 
+    @NotNull
     @Min(value = 1)
     private int minParticipants;
-    @NotBlank
+
     private int maxParticipants;
 
     @NotBlank
@@ -62,6 +63,7 @@ public class Event {
 
     private String meetPasscode;
 
+    private String status = "pending";
 
     @NotBlank
     private String createdBy;
@@ -73,4 +75,7 @@ public class Event {
     public void setCreatedBy(@NotBlank String createdBy) {
         this.createdBy = createdBy;
     }
+
+    @NotBlank
+    private String creatorEmail;
 }

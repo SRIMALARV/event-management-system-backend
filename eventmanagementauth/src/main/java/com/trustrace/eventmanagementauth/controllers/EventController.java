@@ -1,7 +1,7 @@
 package com.trustrace.eventmanagementauth.controllers;
 
 import com.trustrace.eventmanagementauth.models.Event;
-import com.trustrace.eventmanagementauth.security.services.EventService;
+import com.trustrace.eventmanagementauth.services.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +33,13 @@ public class EventController {
         List<Event> events = eventService.getAllEvents();
         return ResponseEntity.ok(events);
     }
+
+    @GetMapping("/approved")
+    public ResponseEntity<List<Event>> getApprovedEvents() {
+        List<Event> approvedEvents = eventService.getApprovedEvents();
+        return ResponseEntity.ok(approvedEvents);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEventById(@PathVariable String id) {

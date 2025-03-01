@@ -67,11 +67,13 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/test/**").permitAll()
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/api/events/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.POST, "/api/events").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/events/**").hasAnyRole("ADMIN", "USER", "ORGANIZATION")
+                        .requestMatchers(HttpMethod.POST, "/api/events/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/organization/**").hasAnyRole( "ORGANIZATION")
+                        .requestMatchers(HttpMethod.PATCH, "/api/events/**").hasAnyRole("ADMIN", "USER", "ORGANIZATION")
+                        .requestMatchers(HttpMethod.PATCH, "/api/organization/**").hasAnyRole( "ORGANIZATION")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
-
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
