@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -32,8 +33,11 @@ public class OrganizationController {
 
     @PutMapping("/{eventId}/{status}")
     @PreAuthorize("hasRole('ORGANIZATION')")
-    public ResponseEntity<Event> updateEventStatus(@PathVariable String eventId, @PathVariable String status) {
-        Event updatedEvent = organizationService.updateEventStatus(eventId, status);
+    public ResponseEntity<Event> updateEventStatus(@PathVariable String eventId,
+                                                   @PathVariable String status,
+                                                   @RequestBody(required = false) Map<String, String> requestBody) {
+        String reason = requestBody != null ? requestBody.get("reason") : null;
+        Event updatedEvent = organizationService.updateEventStatus(eventId, status, reason);
         return ResponseEntity.ok(updatedEvent);
     }
 }
