@@ -68,6 +68,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/registrations/save").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/test").permitAll()
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api/feedback/**").hasAnyRole("ADMIN", "USER","ORGANIZATION")
                         .requestMatchers("/api/registrations/**").hasAnyRole("ADMIN", "USER", "ORGANIZATION")
                         .requestMatchers(HttpMethod.GET, "/api/events/**").hasAnyRole("ADMIN", "USER", "ORGANIZATION")
                         .requestMatchers(HttpMethod.POST, "/api/events/**").permitAll()

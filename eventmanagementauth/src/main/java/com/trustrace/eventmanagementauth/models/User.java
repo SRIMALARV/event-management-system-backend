@@ -26,7 +26,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(max = 30)
     private String password;
 
     @DBRef
