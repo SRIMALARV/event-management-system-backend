@@ -1,18 +1,26 @@
 package com.trustrace.eventmanagementauth.services;
 
 import com.trustrace.eventmanagementauth.models.Event;
+import com.trustrace.eventmanagementauth.repository.EventRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
+
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class EventService {
 
     private final MongoTemplate mongoTemplate;
+
+    private EventRepository eventRepository;
 
     public EventService(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
@@ -66,4 +74,5 @@ public class EventService {
         query.addCriteria(Criteria.where("status").is("approved"));
         return mongoTemplate.find(query, Event.class);
     }
+
 }
