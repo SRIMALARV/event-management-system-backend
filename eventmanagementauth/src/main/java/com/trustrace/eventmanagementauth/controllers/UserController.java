@@ -44,6 +44,7 @@ public class UserController {
                 .toList();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{username}")
     public ResponseEntity<?> deleteUser(@PathVariable String username) {
         User user = userRepository.findByUsername(username)

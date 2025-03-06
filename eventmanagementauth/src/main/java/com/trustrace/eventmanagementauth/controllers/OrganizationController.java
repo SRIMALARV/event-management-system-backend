@@ -23,7 +23,7 @@ public class OrganizationController {
     }
 
     @GetMapping("/{organization}")
-    @PreAuthorize("hasRole('ORGANIZATION')")
+    @PreAuthorize("hasAnyRole('ORGANIZATION', 'ADMIN')")
     public ResponseEntity<List<Event>> getEventsByOrganization(@PathVariable String organization) {
         String decodedOrganization = URLDecoder.decode(organization, StandardCharsets.UTF_8);
         List<Event> events = organizationService.getEventsByOrganization(decodedOrganization);
