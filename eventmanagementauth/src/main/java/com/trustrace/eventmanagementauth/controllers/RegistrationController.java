@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/registrations")
@@ -15,6 +16,17 @@ public class RegistrationController {
 
     @Autowired
     private RegistrationService registrationService;
+
+    @GetMapping("/all")
+    public List<Registration> getAllRegistrations() {
+        return registrationService.getAllRegistrations();
+    }
+
+    @GetMapping("/monthly/{year}")
+    public List<Map<String, Object>> getMonthlyRegistrationsByYear(@PathVariable int year) {
+        return registrationService.getMonthlyRegistrationsByYear(year);
+    }
+
 
     @PostMapping("/save")
     public Registration saveRegistration(@RequestBody Registration registration) {

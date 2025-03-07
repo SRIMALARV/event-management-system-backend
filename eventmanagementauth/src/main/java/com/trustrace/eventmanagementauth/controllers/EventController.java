@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -76,6 +77,17 @@ public class EventController {
         String username = getCurrentUsername();
         List<Event> myEvents = eventService.getEventsByUser(username);
         return ResponseEntity.ok(myEvents);
+    }
+
+    @PutMapping("/{id}/completion-status")
+    public ResponseEntity<String> updateCompletionStatus(
+            @PathVariable String id,
+            @RequestBody Map<String, String> requestBody) {
+
+        String completionStatus = requestBody.get("completionStatus");
+        eventService.updateCompletionStatus(id, completionStatus);
+
+        return ResponseEntity.ok("Event completion status updated to " + completionStatus);
     }
 
     private String getCurrentUsername() {

@@ -1,7 +1,6 @@
 
 package com.trustrace.eventmanagementauth.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
         import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -9,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 @Document(collection = "events")
@@ -17,10 +15,6 @@ public class Event {
 
     @Id
     private String id;
-
-    public String getId() {
-        return id;
-    }
 
     @NotBlank
     @Size(min = 5)
@@ -54,14 +48,6 @@ public class Event {
     private String location;
     private Double fee;
 
-    public @NotBlank @Size(min = 5) String getTitle() {
-        return title;
-    }
-
-    public void setTitle(@NotBlank @Size(min = 5) String title) {
-        this.title = title;
-    }
-
     @NotNull
     @Min(value = 1)
     private int minParticipants;
@@ -86,8 +72,22 @@ public class Event {
     @NotBlank
     private String creatorEmail;
 
+    private String completionStatus = "incomplete";
+
+    public String getId() {
+        return id;
+    }
+
     public void setId(String id) {
         this.id = id;
+    }
+
+    public @NotBlank @Size(min = 5) String getTitle() {
+        return title;
+    }
+
+    public void setTitle(@NotBlank @Size(min = 5) String title) {
+        this.title = title;
     }
 
     public @NotBlank String getType() {
@@ -244,4 +244,11 @@ public class Event {
         this.creatorEmail = creatorEmail;
     }
 
+    public String getCompletionStatus() {
+        return completionStatus;
+    }
+
+    public void setCompletionStatus(String completionStatus) {
+        this.completionStatus = completionStatus;
+    }
 }

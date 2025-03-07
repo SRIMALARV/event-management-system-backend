@@ -5,10 +5,18 @@ import com.trustrace.eventmanagementauth.models.Registration;
 import com.trustrace.eventmanagementauth.repository.EventRepository;
 import com.trustrace.eventmanagementauth.repository.RegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RegistrationService {
@@ -21,6 +29,37 @@ public class RegistrationService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    public RegistrationService(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
+    public List<Registration> getAllRegistrations() {
+        return registrationRepository.findAll();
+    }
+
+    public List<Map<String, Object>> getMonthlyRegistrationsByYear(int year) {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("registeredDate").gte(LocalDate.of(year, 1, 1))
+                        .lt(LocalDate.of(year + 1, 1, 1))),
+                Aggregation.project()
+                        .andExpression("year(registeredDate)").as("year")
+                        .andExpression("month(registeredDate)").as("month"),
+                Aggregation.group("year", "month").count().as("count"),
+                Aggregation.project("count")
+                        .and("_id.year").as("year")
+                        .and("_id.month").as("month"),
+                Aggregation.sort(Sort.Direction.ASC, "month")
+        );
+
+        AggregationResults<Map<String, Object>> results = mongoTemplate.aggregate(
+                aggregation, "registrations", (Class<Map<String, Object>>) (Class<?>) Map.class);
+
+        return results.getMappedResults();
+    }
 
     public Registration saveRegistration(Registration registration) {
         Registration savedRegistration = registrationRepository.save(registration);

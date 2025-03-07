@@ -2,6 +2,8 @@ package com.trustrace.eventmanagementauth.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document(collection = "registrations")
@@ -15,6 +17,19 @@ public class Registration {
     private List<String> teammates;
     private String username;
     private String eventId;
+    private LocalDateTime registeredDate;
+
+    public Registration() {
+        this.registeredDate = LocalDateTime.now();
+    }
+
+    public LocalDateTime getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(LocalDateTime registeredDate) {
+        this.registeredDate = registeredDate;
+    }
 
     public String getId() {
         return id;

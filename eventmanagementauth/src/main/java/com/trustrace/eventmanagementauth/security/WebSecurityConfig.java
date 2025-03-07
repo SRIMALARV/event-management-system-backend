@@ -70,6 +70,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")                        .requestMatchers("/api/feedback/**").hasAnyRole("ADMIN", "USER","ORGANIZATION")
                         .requestMatchers("/api/registrations/**").hasAnyRole("ADMIN", "USER", "ORGANIZATION")
                         .requestMatchers(HttpMethod.GET, "/api/events/**").hasAnyRole("ADMIN", "USER", "ORGANIZATION")
+                        .requestMatchers(HttpMethod.PUT, "/api/events/**").hasRole( "USER")
                         .requestMatchers(HttpMethod.POST, "/api/events/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/organization/**").hasAnyRole( "ORGANIZATION", "USER")
                         .requestMatchers(HttpMethod.GET, "/api/organization/**").permitAll()
